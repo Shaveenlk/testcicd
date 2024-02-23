@@ -16,9 +16,12 @@ jobs:
       - name: Render GitHub Action
         uses: BounceApp/render-action@0.8.0  # Install this action
         with:
-          api-key: ${{ secrets.RENDER_API_KEY }}  # Store your API key as a secret
-          project-id: ${{ secrets.RENDER_PROJECT_ID }}  # Store your project ID as a secret
-          service-id: ${{ secrets.RENDER_SERVICE_ID }}  # Store your service ID as a secret
+          render-token: ${{ secrets.RENDER_API_KEY }}
+          service-id:   ${{ secrets.RENDER_SERVICE_ID }} 
+          retries: 20
+          wait: 16000
+          sleep: 30000
+         # Store your service ID as a secret
           # Additional parameters based on your deployment method (e.g., git hooks)
 
       - name: Install frontend dependencies
@@ -30,6 +33,6 @@ jobs:
       - name: Deploy Vercel Action
         uses: BetaHuhn/deploy-to-vercel-action@v1.9.12  # Install this action
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}  # Store your Vercel token as a secret
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Store your Vercel token as a secret
           # Additional parameters based on your deployment method (e.g., git hooks)
 
