@@ -1,49 +1,38 @@
-name: Node.JS CI/CD
+name: MERN Stack CI/CD
 
 on:
   push:
-    branches: [main]
-
+    branches: [ main ]  # Change to your desired trigger and branch(es)
 
 jobs:
-
-  test:
-    name: Test
+  build-and-deploy:
     runs-on: ubuntu-latest
-
-    strategy: 
-      matrix:
-        node-version: [20.x]
-
     steps:
-      - name: Checkout 
-        uses: actions/checkout@v4 # was "v2" before 
-        with: 
-          fetch-depth: 0
+      - uses: actions/checkout@v3
 
-      - name: Use Node.JS ${{ matrix.node-version }}
-        uses: actions/setup-node@v4 # was "v2" before
-        with: 
-          node-version: ${{ matrix.node-version }}
+      - name: Install backend dependencies
+        run: cd backend && npm install  # Adjust for your build command
 
-      - name: NPM install, build and test
-        run: |
-          npm install
-          npm run 
-          npm test
-        env: 
-          DBHOST: ${{ secrets.DBHOST }}
+      - name: Build backend
+        run: cd backend && npm run build  # Adjust for your build command
 
-
-  # Heavily modified deploy job to fit render.com
-  deploy:
-    name: Deploy
-    needs: [test] # Our tests must pass in order to run the deploy job
-    runs-on: ubuntu-latest
-
-    steps: 
-      - name: Deploy to production
-        uses: johnbeynon/render-deploy-action@v0.0.8
+      - name: Render GitHub Action
+        uses: BounceApp/render-action@0.8.0  # Install this action
         with:
-          service-id: ${{ secrets.SERVICE_ID }} # Can be found as part of the Deploy Hook
-          api-key: ${{ secrets.RENDER_API_KEY }} # Create your API key in Render Dashboard > Account Settings
+          api-key: ${{ secrets.RENDER_API_KEY }}  # Store your API key as a secret
+          project-id: ${{ secrets.RENDER_PROJECT_ID }}  # Store your project ID as a secret
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}  # Store your service ID as a secret
+          # Additional parameters based on your deployment method (e.g., git hooks)
+
+      - name: Install frontend dependencies
+        run: cd frontend && npm install  # Adjust for your build command
+
+      - name: Build frontend
+        run: cd frontend && npm run build  # Adjust for your build command
+
+      - name: Deploy frontend
+        uses: vercel/vercel-action@v2  # Install this action
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}  # Store your Vercel token as a secret
+          # Additional parameters based on your deployment method (e.g., git hooks)
+
