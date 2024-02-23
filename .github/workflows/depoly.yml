@@ -13,9 +13,6 @@ jobs:
       - name: Install backend dependencies
         run: cd backend && npm install  # Adjust for your build command
 
-      # - name: Build backend
-      #   run: cd backend && npm run build  # Adjust for your build command
-
       - name: Render GitHub Action
         uses: BounceApp/render-action@0.8.0  # Install this action
         with:
