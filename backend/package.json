@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon index.js",
-    "build": "npm run prebuild && nodemon index.js"
+    "build": "npm run nodemon index.js"
   },
   "author": "Shaveen",
   "license": "ISC",
