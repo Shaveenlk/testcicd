@@ -3,6 +3,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import '../adduser/add.css'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import backendUrl from '../../config/backendUrl.js'
+
 
 const Edit = () => {
   const users ={
@@ -23,7 +25,7 @@ const Edit = () => {
   }
 
   useEffect(() =>{
-      axios.get(`http://localhost:8000/api/fetchone/${id}`).then((response) => {
+      axios.get(`${backendUrl}/api/fetchone/${id}`).then((response) => {
         setUsers(response.data)
        
       }).catch((error) =>{
@@ -33,7 +35,7 @@ const Edit = () => {
 
   const submitForm = async(e) =>{
     e.preventDefault();
-    await axios.put(`http://localhost:8000/api/updateuser/${id}`,user).then((response) =>{
+    await axios.put(`${backendUrl}/api/updateuser/${id}`,user).then((response) =>{
       toast.success("User Updated Sucessfully",{position:'top-right'})
       navigator('/')
     }).catch((error) =>{

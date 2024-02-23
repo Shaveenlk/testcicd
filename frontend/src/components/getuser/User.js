@@ -3,6 +3,7 @@ import './user.css'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import backendUrl from '../../config/backendUrl.js'
 
 const User = () => {
 
@@ -11,7 +12,7 @@ const User = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response =await axios.get("http://localhost:8000/api/fetch").then((response) => {
+      const response =await axios.get(`${backendUrl}/api/fetch`).then((response) => {
         setUsers(response.data)
       })
     }
@@ -20,7 +21,7 @@ const User = () => {
 
 
   const deleteUser = async(id) => {
-    await axios.delete(`http://localhost:8000/api/deleteuser/${id}`).then((response) => {
+    await axios.delete(`${backendUrl}/api/deleteuser/${id}`).then((response) => {
       setUsers((prevUser)=>prevUser.filter((user) => user._id !== id))
       toast.success("User Deleted Sucessfully",{position:'top-right'})
     })

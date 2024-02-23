@@ -3,9 +3,10 @@ import {createBrowserRouter,RouterProvider} from 'react-router-dom';
 import User from './components/getuser/User';
 import Add from './components/adduser/Add';
 import Edit from './components/updateduser/Edit';
-import SignupPage from './components/SignupPage/SignupPage';
+
 
 function App() {
+  
   const route =createBrowserRouter([
     {
       path: "/",
@@ -18,13 +19,10 @@ function App() {
     {
       path:"/add",
       element: <Add/>,
-    },{
-      path:"/signin",
-      element:<SignupPage/>
     }
   ])
 
-
+ 
 
   return (
     <div className="App">

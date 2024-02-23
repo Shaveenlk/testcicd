@@ -3,6 +3,8 @@ import './add.css'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import backendUrl from '../../config/backendUrl.js'
+// export const BACKEND_APP_URL ="https://crudboy.onrender.com";
 
 const Add = () => {
     const users ={
@@ -22,7 +24,7 @@ const Add = () => {
 
     const submitForm = async(e) => {
         e.preventDefault();
-        await axios.post("http://localhost:8000/api/create",user).then((response) => {
+        await axios.post(`${backendUrl}/api/create`,user).then((response) => {
             toast.success("User Added Sucessfully",{position:'top-right'})
             navigate('/')
         }).catch((error) => {
