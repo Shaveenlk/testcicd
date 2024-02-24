@@ -54,6 +54,10 @@ const Add = () => {
             <input type="password" onChange={inputhandler} name="password" id="password" autoComplete='off' placeholder='Password' />
         </div>
         <div className='inputGroup'>
+            <label htmlFor='Test'>Test bn</label>
+            <input type="text" onChange={inputhandler} name="Test" id="Test" autoComplete='off' placeholder='mona hari' />
+        </div>
+        <div className='inputGroup'>
            <button type='submit'>Add User</button>
         </div>
       </form>
