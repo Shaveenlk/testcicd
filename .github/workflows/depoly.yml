@@ -5,36 +5,27 @@ on:
     branches: [ main ]  # Change to your desired trigger and branch(es)
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install backend dependencies
-        run: cd backend && npm install  # Adjust for your build command
-
-      - name: Render GitHub Action
-        uses: BounceApp/render-action@0.8.0  # Install this action
+      - uses: actions/setup-node@v4
+        with: 
+          node-version: 20
+      - name: npm install
+        run: | 
+          npm install
+        env:
+          CI: true
+  
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          render-token: ${{ secrets.RENDER_API_KEY }}
-          github-token: ${{ secrets.TOKEN_GITHUB }}
-          service-id:   ${{ secrets.SERVICE_ID }} 
-          retries: 20
-          wait: 16000
-          sleep: 30000
-         # Store your service ID as a secret
-          # Additional parameters based on your deployment method (e.g., git hooks)
+          service-id: ${{ secrets.SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
+          wait-for-success: false  
 
-      - name: Install frontend dependencies
-        run: cd frontend && npm install  # Adjust for your build command
-
-      - name: Build frontend
-        run: cd frontend && npm run build  # Adjust for your build command
-
-      - name: Deploy Vercel Action
-        uses: BetaHuhn/deploy-to-vercel-action@v1.9.12  # Install this action
-        with:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}  # Store your Vercel token as a secret
-          # Additional parameters based on your deployment method (e.g., git hooks)
-
+      
