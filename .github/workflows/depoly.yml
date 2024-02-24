@@ -5,19 +5,31 @@ on:
     branches: [ main ]  # Change to your desired trigger and branch(es)
 
 jobs:
-  build:
+  backend-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: 
-          node-version: 20
-      - name: npm install
+          node-version: 18
+      - name: npm install backend
         run: cd backend && npm install
         env:
           CI: true
   
-  deploy:
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with: 
+          node-version: 18
+      - name: npm install frontend
+        run: cd frontend && npm install
+        env:
+          CI: true
+
+  backend-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -25,6 +37,7 @@ jobs:
         with:
           service_id: ${{ secrets.SERVICE_ID }}
           api_key: ${{ secrets.RENDER_API_KEY }}
+  
 
 
   frontend-deploy:
@@ -34,6 +47,8 @@ jobs:
         - uses: amondnet/vercel-action@v20 #deploy
           with:
             vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
+            github-token: ${{ secrets.GITHUB_TOKEN }} #Optional 
+            vercel-args: '--prod' #Optional
             vercel-org-id: ${{ secrets.ORG_ID}}  #Required
             vercel-project-id: ${{ secrets.PROJECT_ID}} #Required 
             working-directory: frontend
