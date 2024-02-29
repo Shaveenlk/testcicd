@@ -37,6 +37,7 @@ const User = () => {
                 <th>User name</th>
                 <th>User Email</th>
                 <th>Actions</th>
+                <th>baba</th>
             </tr>
         </thead>
         <tbody>
