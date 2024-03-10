@@ -38,7 +38,7 @@ const Add = () => {
       <h3>Add new User</h3>
       <form className='addUserForm' onSubmit={submitForm}>
         <div className='inputGroup'>
-            <label htmlFor='fname'>First Name</label>
+            <label htmlFor='fname'>First Name ane</label>
             <input type="text" onChange={inputhandler} name="fname" id="fname" autoComplete='off' placeholder='First name' />
         </div>
         <div className='inputGroup'>
